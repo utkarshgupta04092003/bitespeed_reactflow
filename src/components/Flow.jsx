@@ -90,8 +90,8 @@ export default function Flow() {
     }
 
     return (
-        <div className='h-[90vh] border border-red-500 flex  justify-betweenm-2'>
-            <div className='border border-red-500 w-[75vw]'>
+        <div className='h-[90vh] flex  justify-betweenm-2'>
+            <div className=' w-[75vw]'>
 
                 <div className={`flex justify-center h-16`}>
                     <p className={` ${isError ? 'flex' : "hidden"}   p-2 rounded-lg bg-red-300 font-bold my-2 cursor-pointer`}>Cannot save flow</p>
