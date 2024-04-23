@@ -4,7 +4,6 @@ import ReactFlow, { useNodesState, useEdgesState, addEdge, MarkerType } from 're
 import 'reactflow/dist/style.css';
 import AddNode from './AddNode';
 import UpdateNode from './UpdateNode';
-import SingleEdgeNode from './SingleEdgeNode';
 
 const initialNodes = [
     { id: '1', position: { x: 100, y: 100 }, data: { label: 'Node 1', noOfActions: 2 }, sourcePosition: 'right', targetPosition: 'left' },
@@ -12,6 +11,7 @@ const initialNodes = [
     { id: '3', position: { x: 500, y: 200 }, data: { label: 'Node 3' }, sourcePosition: 'right', targetPosition: 'left' },
 ];
 const initialEdges = [{ id: '1-2', source: '1', target: '2' }];
+
 
 export default function Flow() {
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -26,11 +26,12 @@ export default function Flow() {
     const onConnect = (params) => {
         console.log('params', params)
         if (params.source) {
-            const isTargetAlreadyConnected = edges.some((edge) => parseInt(edge.source) === parseInt(params.source));
+            const isTargetAlreadyConnected = edges.some((edge) => edge.source === params.source);
             if (isTargetAlreadyConnected) return;
         }
         console.log(edges);
         setEdges((edges) => addEdge(params, edges));
+      
     };
 
     const edgeOptions = {
@@ -107,9 +108,7 @@ export default function Flow() {
                     defaultEdgeOptions={edgeOptions}
                     connectionLineStyle={{ stroke: 'white' }}
                     onNodeClick={onNodeClick}
-                    // isValidConnection={(connection) => {
-                    //     return connection.source === data.id && data.source === null;
-                    //   }}
+                    onBlur={() => setSelected(null)}
                 />
 
             </div>

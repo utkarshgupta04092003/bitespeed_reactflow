@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { nanoid } from 'nanoid'
+import message from '../assets/msg.svg';
+
 
 
 export default function AddNode({handleAddNoe}) {
@@ -34,5 +36,12 @@ export default function AddNode({handleAddNoe}) {
       </div>
       <hr />
     </div>
+              // <div className="border border-blue-600 inline-block p-10 py-4 ml-3 mt-3 rounded-md text-blue-600">
+              //     <div className='flex justify-center'>
+              //     <img src={message} alt="" className='w-8 h-8' />
+              //     </div>
+              //     <p>Message</p>
+              // </div>
+
   )
 }
