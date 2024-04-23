@@ -1,15 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ReactFlow, { useNodesState, useEdgesState, addEdge, MarkerType } from 'reactflow';
 
 import 'reactflow/dist/style.css';
 import AddNode from './AddNode';
 import UpdateNode from './UpdateNode';
 
+// initial default nodes
 const initialNodes = [
     { id: '1', position: { x: 100, y: 100 }, data: { label: 'Node 1', noOfActions: 2 }, sourcePosition: 'right', targetPosition: 'left' },
     { id: '2', position: { x: 300, y: 200 }, data: { label: 'Node 2' }, sourcePosition: 'right', targetPosition: 'left' },
-    { id: '3', position: { x: 500, y: 200 }, data: { label: 'Node 3' }, sourcePosition: 'right', targetPosition: 'left' },
 ];
+// initial edges for the connected nodes
 const initialEdges = [{ id: '1-2', source: '1', target: '2' }];
 
 
@@ -19,10 +20,8 @@ export default function Flow() {
     const [isError, setIsError] = useState(false);
     const [selected, setSelected] = useState();
 
-    // const onConnect = useCallback(
-    //     (params) => setEdges((eds) => addEdge(params, eds)),
-    //     [setEdges],
-    // );
+    
+    // check for the condtion that any node cannot have more than 1 source edges when connecting two nodes
     const onConnect = (params) => {
         console.log('params', params)
         if (params.source) {
@@ -34,6 +33,7 @@ export default function Flow() {
       
     };
 
+    // edge style and arrow 
     const edgeOptions = {
         markerEnd: {
             type: MarkerType.ArrowClosed,
@@ -45,13 +45,12 @@ export default function Flow() {
         },
     };
 
-    const handleAddNoe = (currNode) => {
-        const modifiedNodes = [...nodes, currNode];
-        setNodes(modifiedNodes);
+    // add new node to the flow
+    const handleAddNode = (currNode) => {
+        setNodes(prevNodes => [...prevNodes, currNode]);
     }
 
     // Function to find unique values of the "target" key
-
     const findUniqueTargets = () => {
         const uniqueTargets = new Set();
         edges.forEach(item => {
@@ -60,6 +59,7 @@ export default function Flow() {
         return [...uniqueTargets];
     };
 
+    // check the given condition in the docs for the save error
     const handleSaveChanges = () => {
         const targets = findUniqueTargets();
         console.log('unique target', targets);
@@ -72,9 +72,10 @@ export default function Flow() {
         }
     }
 
+    // on clicking set the current node to selected
     const onNodeClick = (event, node) => setSelected(node);
 
-    // how to get the selected node
+    // update the content of any node
     const handleUpdate = (content) => {
         console.log('handle update content', content);
 
@@ -85,10 +86,7 @@ export default function Flow() {
             }
             return node;
         })
-
         setNodes(updated);
-
-
     }
 
     return (
@@ -108,18 +106,15 @@ export default function Flow() {
                     defaultEdgeOptions={edgeOptions}
                     connectionLineStyle={{ stroke: 'white' }}
                     onNodeClick={onNodeClick}
-                    onBlur={() => setSelected(null)}
                 />
 
             </div>
+            {/* right side section for add and update node data */}
             <div>
-
                 <div className="flex justify-center" onClick={handleSaveChanges}>
                     <span className='border border-blue-500 p-2 rounded-lg text-blue-500 font-bold my-3 cursor-pointer'>Save Changes</span>
                 </div>
-
-                <AddNode handleAddNoe={handleAddNoe} />
-
+                <AddNode handleAddNode={handleAddNode} />
                 <UpdateNode selected={selected} handleUpdate={handleUpdate} />
             </div>
         </div>

@@ -1,29 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import message from '../assets/msg.svg';
 export default function UpdateNode({ selected, handleUpdate }) {
 
-    console.log('selected', selected)
     const [input, setInput] = useState();
+
+    // set the data into input box recieved from the selected nodes 
     useEffect(() => {
         setInput(selected?.data.label)
     }, [selected]);
+
+    // call the update function 
     const handleChange = (e) => {
         handleUpdate(e.target.value);
         setInput(e.target.value);
 
     }
 
-    // if(!selected){
-    //     return (
-    //         <div className="border border-blue-600 inline-block p-10 py-4 ml-3 mt-3 rounded-md text-blue-600">
-    //             <div className='flex justify-center'>
-    //             <img src={message} alt="" className='w-8 h-8' />
-    //             </div>
-    //             <p>Message</p>
-    //         </div>
-    //     )
-    // }
-    return selected &&  (
+    // display the edit node option only when any node is selected
+    return selected && (
         <div className='w-[25vw]'>
             <div className='p-2 text-center border bo rder-red-500'>
                 Message
@@ -34,8 +27,8 @@ export default function UpdateNode({ selected, handleUpdate }) {
                 <div className='flex-col'>
 
                     <input name="" id="" cols="30" rows="3" className='border rounded-lg w-full p-3'
-                        value={input} onChange={handleChange} disabled={!selected} 
-                        placeholder='select any node first'/>
+                        value={input} onChange={handleChange} disabled={!selected}
+                        placeholder='select any node first' />
                 </div>
             </div>
             <hr />
